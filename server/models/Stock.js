@@ -2,9 +2,9 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection');
 
-class Transaction extends Model {};
+class Stock extends Model { };
 
-Transaction.init(
+Stock.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -12,28 +12,25 @@ Transaction.init(
             primaryKey: true,
             autoIncrement: true,
         },
-        type: {
+        ticker_symbol: {
             type: DataTypes.STRING,
-            validate: {
-              isIn: [['buy', 'sell']],
-            },
-          },
-        portfolio_id: {
+            allowNull: false,
+        },
+        watchlist_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'portfolio',
+                model: 'watchlist',
                 key: 'id',
             },
         },
     },
     {
-        //Table options
         sequelize,
         underscored: true,
         freezeTableName: true,
-        modelName: 'transaction',
+        modelName: 'stock',
     },
 );
 
-module.exports = Transaction;
+module.exports = Stock;
